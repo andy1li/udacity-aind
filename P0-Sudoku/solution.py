@@ -1,7 +1,6 @@
 from utils import *
 from collections import Counter
 
-
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') 
@@ -27,29 +26,14 @@ def naked_twins(values):
     -------
     dict
         The values dictionary with the naked twins eliminated from peers
-
-    Notes
-    -----
-    Your solution can either process all pairs of naked twins from the input once,
-    or it can continue processing pairs of naked twins until there are no such
-    pairs remaining -- the project assistant test suite will accept either
-    convention. However, it will not accept code that does not process all pairs
-    of naked twins from the original input. (For example, if you start processing
-    pairs of twins and eliminate another pair of twins before the second pair
-    is processed then your code will fail the PA test suite.)
-
-    The first convention is preferred for consistency with the other strategies,
-    and because it is simpler (since the reduce_puzzle function already calls this
-    strategy repeatedly).
     """
     for unit in unitlist:
         twos = Counter(values[box] for box in unit 
                                    if len(values[box]) == 2)
-
         for twins, count in twos.items():
             if count == 2: # if naked twins
 
-                for box in unit: # loop unit
+                for box in unit: 
                     if values[box] != twins: # for non-twins box
 
                         new_value = values[box]
@@ -81,6 +65,7 @@ def eliminate(values):
         for peer in peers[box]:
             new_value = values[peer].replace(values[box],'')
             assign_value(values, peer, new_value)
+
     return values
 
 
@@ -99,10 +84,6 @@ def only_choice(values):
     -------
     dict
         The values dictionary with all single-valued boxes assigned
-
-    Notes
-    -----
-    You should be able to complete this function by copying your code from the classroom
     """
     for unit in unitlist:
         for digit in '123456789':
@@ -131,7 +112,6 @@ def reduce_puzzle(values):
         The values dictionary after continued application of the constraint strategies
         no longer produces any changes, or False if the puzzle is unsolvable 
     """
-    # TODO: Copy your code from the classroom and modify it to complete this function
     stalled = False
     while not stalled:
         before = count_box(values, 1)
@@ -157,11 +137,6 @@ def search(values):
     -------
     dict or False
         The values dictionary with all boxes assigned or False
-
-    Notes
-    -----
-    You should be able to complete this function by copying your code from the classroom
-    and extending it to call the naked twins strategy.
     """
     values = reduce_puzzle(values)
     
